@@ -28,8 +28,6 @@ services:
       PORT: 3000
       NODE_ENV: ${NODE_ENV:-development}
       CORS_ORIGIN: ${CORS_ORIGIN:-*}
-    ports:
-      - "${BACKEND_PORT}:3000"
     depends_on:
       db:
         condition: service_healthy
@@ -45,13 +43,22 @@ services:
     environment:
       VITE_API_URL: ${VITE_API_URL}
       VITE_ACCESS_PASSWORD: ${VITE_ACCESS_PASSWORD}
-    ports:
-      - "${FRONTEND_PORT}:5173"
     depends_on:
       - backend
     volumes:
       - ./frontend:/app
       - /app/node_modules
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - backend
+      - frontend
 
 volumes:
   db_data:
