@@ -5,8 +5,9 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const PORT = process.env.PORT || 3000;
+const HOST = '0.0.0.0'; // Escutar em todas as interfaces
 
-app.listen(PORT, () => {
+app.listen(PORT, HOST, () => {
   console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
   console.log(`📝 Ambiente: ${process.env.NODE_ENV || 'development'}`);
   console.log(`\n📌 Endpoints disponíveis:`);
