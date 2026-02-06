@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 // Carregar variáveis de ambiente
 dotenv.config();
 
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT) || 3000;
 const HOST = '0.0.0.0'; // Escutar em todas as interfaces
 
 app.listen(PORT, HOST, () => {
