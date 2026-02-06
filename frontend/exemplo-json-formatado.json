@@ -1,0 +1,135 @@
+{
+    "informacoes_contato": {
+        "nome_proponente": "teste",
+        "cnpj": "123456798123465",
+        "municipio": "Cuiaba",
+        "telefone_1": "65 99999999",
+        "telefone_2": "65 99999999",
+        "email": "teste@teste.com"
+    },
+    "tipo_formulario": "Padrão",
+    "solicitacao": {
+        "categoria": "mecanizacao",
+        "item": "micro_trator_diesel"
+    },
+    "agricultores_familiares": {
+        "possui": "Sim",
+        "quantidade_familias": 3
+    },
+    "importancia_agricultura_familiar": "Alto",
+    "organizacao_comunidades": {
+        "organizados": "Sim",
+        "tipos_comunidades": [
+            "Comunidades tradicionais"
+        ],
+        "quantidades": {
+            "comunidades_tradicionais": 3
+        }
+    },
+    "cadeias_valor_principais": {
+        "tipos": [
+            "Fruticultura"
+        ],
+        "detalhes": [
+            {
+                "tipo": "Fruticultura",
+                "produto": "Banana",
+                "mercados": [
+                    "Município",
+                    "Região"
+                ]
+            },
+            {
+                "tipo": "Fruticultura",
+                "produto": "Abacaxi",
+                "mercados": [
+                    "Município",
+                    "Estado"
+                ]
+            }
+        ]
+    },
+    "politicas_publicas": {
+        "executa": "Sim",
+        "quais": "Horta em escolas"
+    },
+    "profissionais": {
+        "possui_quadro": "Sim",
+        "tipos": [
+            "Técnico Agrícola/Agropecuário",
+            "Motorista"
+        ],
+        "detalhes": [
+            {
+                "tipo": "Técnico Agrícola/Agropecuário",
+                "instituicao": "senar"
+            },
+            {
+                "tipo": "Motorista",
+                "instituicao": "Prefeitura"
+            }
+        ]
+    },
+    "dificuldades_proponente": {
+        "principais": [
+            "Veículos de carga para transporte",
+            "Mecanização agrícola compatível à demanda"
+        ]
+    },
+    "desafios_agricultores": {
+        "principais": [
+            "Acesso à assistência técnica",
+            "Transporte de insumos e produção"
+        ]
+    },
+    "capacidade_atendimento": {
+        "equipamentos": [
+            "Distribuidor de calcário",
+            "Plantadeira de rama de mandioca",
+            "Outros equipamentos"
+        ],
+        "detalhes": [
+            {
+                "tipo": "Distribuidor de calcário",
+                "nome": null,
+                "quantidade": 1
+            },
+            {
+                "tipo": "Plantadeira de rama de mandioca",
+                "nome": null,
+                "quantidade": 1
+            },
+            {
+                "tipo": "Outros equipamentos",
+                "nome": "Colheitadeira",
+                "quantidade": 1
+            }
+        ]
+    },
+    "publico_agricultura_familiar": "Sim",
+    "compromissos": {
+        "gestao_administrativa_operacional": "Sim",
+        "local_armazenamento_adequado": "Sim",
+        "responsabiliza_custos": {
+            "resposta": "Parcial",
+            "descricao": "teste teste teste"
+        },
+        "monitoramento_atividades": {
+            "resposta": "Parcial",
+            "descricao": "teste teste "
+        },
+        "relatorio_anual": {
+            "resposta": "Parcial",
+            "descricao": "teste"
+        }
+    },
+    "declaracao_veracidade": true,
+    "local_data_proposta": {
+        "local": "ipiranga do norte",
+        "data": "2026-01-15"
+    },
+    "responsaveis": {
+        "responsavel_tecnico": "jose",
+        "gestor": "joao"
+    }
+}

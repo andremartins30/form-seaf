@@ -1,0 +1,161 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+enum StatusPlano {
+    EM_ANALISE
+    APROVADO
+    NEGADO
+}
+
+model FormPlano {
+    id String @id @default(uuid())
+
+    // Metadados
+    formType    String // "default", "calcario", "mudas"
+    formVersion String // "1.0", "2.0"
+    status      StatusPlano @default(EM_ANALISE)
+
+    // Informações de Contato (campos indexados para consultas rápidas)
+    nomeProponente String
+    cnpj           String  @db.VarChar(14)
+    municipio      String
+    telefone1      String?
+    telefone2      String?
+    email          String?
+
+    // Solicitação (relacionamento com dados mestres)
+    categoriaId Int?
+    categoria   Category? @relation(fields: [categoriaId], references: [id])
+    itemId      Int?
+    item        Item?     @relation(fields: [itemId], references: [id])
+
+    // Flags principais (para filtros rápidos)
+    possuiAgricultores   Boolean @default(false)
+    quantidadeFamilias   Int?
+    publicoAgricultura   Boolean @default(true)
+    declaracaoVeracidade Boolean @default(false)
+
+    // Datas importantes
+    dataPropostaSubmissao DateTime?
+    localProposta         String?
+
+    // Responsáveis
+    responsavelTecnico String?
+    gestorNome         String?
+
+    // JSON completo (backup + dados variáveis)
+    payloadFormatado Json // JSON formatado e traduzido
+    payloadOriginal  Json? // Dados brutos opcionais (para auditoria)
+
+    // Auditoria
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // Relacionamentos 1:N
+    profissionais Profissional[]
+    cadeiasValor  CadeiaValor[]
+    equipamentos  Equipamento[]
+
+    // Índices para performance em consultas da API
+    @@index([municipio])
+    @@index([categoriaId])
+    @@index([formType])
+    @@index([status])
+    @@index([cnpj])
+    @@index([createdAt])
+}
+
+model Category {
+    id        Int      @id @default(autoincrement())
+    value     String   @unique // Ex: "agroindustria"
+    label     String // Ex: "Doação - Agroindústrias"
+    formType  String   @default("default") // Ex: "default", "calcario", "mudas"
+    order     Int      @default(0)
+    active    Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    items  Item[]
+    planos FormPlano[]
+}
+
+model Item {
+    id         Int      @id @default(autoincrement())
+    categoryId Int
+    value      String // Ex: "despolpadeira"
+    label      String // Ex: "Despolpadeira de fruta industrial"
+    order      Int      @default(0)
+    active     Boolean  @default(true)
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+
+    category Category    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+    planos   FormPlano[]
+
+    @@unique([categoryId, value])
+    @@index([categoryId])
+}
+
+model CommunityType {
+    id        Int      @id @default(autoincrement())
+    value     String   @unique // Ex: "comunidades_tradicionais", "quilombolas"
+    label     String // Ex: "Comunidades tradicionais", "Comunidades quilombolas"
+    order     Int      @default(0)
+    active    Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+// ============================================
+// DADOS RELACIONAIS (Tabelas de relacionamento 1:N com FormPlano)
+// ============================================
+
+model Profissional {
+    id          Int      @id @default(autoincrement())
+    planoId     String
+    tipo        String // Ex: "Técnico Agrícola/Agropecuário", "Motorista"
+    instituicao String // Ex: "SENAR", "Prefeitura"
+    createdAt   DateTime @default(now())
+
+    plano FormPlano @relation(fields: [planoId], references: [id], onDelete: Cascade)
+
+    @@index([planoId])
+    @@index([tipo])
+}
+
+model CadeiaValor {
+    id        Int      @id @default(autoincrement())
+    planoId   String
+    tipo      String // Ex: "Fruticultura", "Bovinocultura de leite"
+    produto   String? // Ex: "Banana", "Abacaxi"
+    mercados  String[] // Array PostgreSQL: ["Município", "Região", "Estado"]
+    createdAt DateTime @default(now())
+
+    plano FormPlano @relation(fields: [planoId], references: [id], onDelete: Cascade)
+
+    @@index([planoId])
+    @@index([tipo])
+}
+
+model Equipamento {
+    id         Int      @id @default(autoincrement())
+    planoId    String
+    tipo       String // Ex: "Distribuidor de calcário", "Trator 75/80 CV"
+    nome       String? // Para "Outros equipamentos" - nome customizado
+    quantidade Int // Quantidade do equipamento
+    createdAt  DateTime @default(now())
+
+    plano FormPlano @relation(fields: [planoId], references: [id], onDelete: Cascade)
+
+    @@index([planoId])
+    @@index([tipo])
+}
