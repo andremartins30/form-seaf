@@ -1,0 +1,23 @@
+# Variáveis de ambiente
+.env
+.env.local
+.env.production.local
+
+# Docker
+docker-compose.override.yml
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node modules (caso tenha na raiz)
+node_modules/
